@@ -48,18 +48,24 @@ class UserManager(BaseUserManager):
 
         return self._create_user(email, password, **extra_fields)
         
-        
+
+# Custom validator to check for at least one digit and Upper Letter in password        
+def contains_digit_and_upperletter(value):
+        if not any(char.isdigit() for char in value):
+            raise ValidationError("This field must contain at least one digit.")
+        if not any(char.isupper() for char in value):
+            raise ValidationError("This field must contain at least one uppercase letter.")
 
 
 class User(AbstractUser):
 
     # Custom validator to check for at least one digit and Upper Letter
-    @staticmethod
-    def contains_digit_and_upperletter(value):
-        if not any(char.isdigit() for char in value):
-            raise ValidationError("This field must contain at least one digit.")
-        if not any(char.isupper() for char in value):
-            raise ValidationError("This field must contain at least one uppercase letter.")
+    # @staticmethod
+    # def contains_digit_and_upperletter(value):
+    #     if not any(char.isdigit() for char in value):
+    #         raise ValidationError("This field must contain at least one digit.")
+    #     if not any(char.isupper() for char in value):
+    #         raise ValidationError("This field must contain at least one uppercase letter.")
 
     email = models.EmailField(
         unique=True, 
