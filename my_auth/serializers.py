@@ -33,28 +33,7 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class LoginSerializer(TokenObtainPairSerializer):
-    ...
-    # Use email for authentication instead of username
-    # def validate(self, attrs: Dict[str, Any]) -> Dict[str, str]:
-    #     email = attrs.get('email')
-    #     password = attrs.get('password')
-
-    #     if not email or not password:
-    #         raise AuthenticationFailed('Email and password are required')
-        
-    #             # Authenticate the user using email and password
-    #     user = authenticate(request=self.context.get('request'), email=email, password=password)
-
-    #     if not user:
-    #         raise AuthenticationFailed('No active account found with the given credentials')
-
-    #     if not user.is_active:
-    #         raise AuthenticationFailed('This account is inactive')
-
-    #     # Override attrs to match expected fields in TokenObtainPairSerializer
-    #     # attrs['username'] = user.email  # Simulate username field for token generation
-
-    #     return super().validate(attrs)
+    pass
 
 
 class ActivationSerializer(serializers.Serializer):

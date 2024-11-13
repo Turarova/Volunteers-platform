@@ -198,7 +198,3 @@ DEFAULTS = {
 }
 
 
-# AUTHENTICATION_BACKENDS = [
-#     # 'my_auth.backends.EmailBackend',  # My custom email backend
-#     'django.contrib.auth.backends.ModelBackend',  # Default backend
-# ]
