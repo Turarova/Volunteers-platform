@@ -20,24 +20,31 @@ class UserManager(BaseUserManager):
             raise ValueError("User must have a first name")
         if not last_name:
             raise ValueError("User must have a last name")
-        user = self.model(
-            email=self.normalize_email(email)
+        
+        user = self.model(                     # self.model is the UserManager class
+            email=self.normalize_email(email),  # normalize_email() is a helper function that converts email  1st to lowercase
+            first_name=first_name,
+            last_name=last_name,
+            **extra_fields
         )
-        user.first_name = first_name
-        user.last_name = last_name
         user.set_password(password)  # change password to hash
-        user.is_active = False
-        user.is_staff = False
-        user.is_superuser = False
         user.create_activation_code()
-        user.save(using=self._db)
+        user.save(using=self._db)  # save() is a helper function that saves the user to the database
         return user
+    
+    def create_user(self, email, first_name, last_name, password=None, **extra_fields):
+        extra_fields.setdefault('is_staff', False)
+        extra_fields.setdefault('is_superuser', False)
+        return self._create_user(email, first_name, last_name, password, **extra_fields)
 
-    def _create_superuser(self, email, password, **extra_fields):
+    def create_superuser(self, email, password, **extra_fields):
         """Create and save a SuperUser with the given email and password."""
         extra_fields.setdefault('is_active', True)
         extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('is_superuser', True)
+
+        extra_fields.setdefault('first_name', 'Admin')
+        extra_fields.setdefault('last_name', 'User')
 
         if extra_fields.get('is_active') is not True:
             raise ValueError('Superuser must have is_active=True.')
@@ -46,7 +53,7 @@ class UserManager(BaseUserManager):
         if extra_fields.get('is_superuser') is not True:
             raise ValueError('Superuser must have is_superuser=True.')
 
-        return self._create_user(email, password, **extra_fields)
+        return self._create_user(email=email, password=password, **extra_fields)
         
 
 # Custom validator to check for at least one digit and Upper Letter in password        
@@ -59,14 +66,7 @@ def contains_digit_and_upperletter(value):
 
 class User(AbstractUser):
 
-    # Custom validator to check for at least one digit and Upper Letter
-    # @staticmethod
-    # def contains_digit_and_upperletter(value):
-    #     if not any(char.isdigit() for char in value):
-    #         raise ValidationError("This field must contain at least one digit.")
-    #     if not any(char.isupper() for char in value):
-    #         raise ValidationError("This field must contain at least one uppercase letter.")
-
+    username = None  # Remove the username fie
     email = models.EmailField(
         unique=True, 
         blank=False, 
@@ -92,17 +92,22 @@ class User(AbstractUser):
     is_active = models.BooleanField('active', default=False)
     activation_code = models.CharField(max_length=36, blank=True)
 
+    objects = UserManager()
+
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['first_name', 'last_name']
+    REQUIRED_FIELDS = []
 
     def __str__(self):
         return self.email
     
     def create_activation_code(self):
+        """Generates a unique activation code for the user"""
         code = str(uuid.uuid4())
         self.activation_code = code
+        print(code)
     
     def activate_with_code(self, code):
+        """Activate the user if the provided code matches the stored activation code"""
         if str(self.activation_code) != str(code):
             raise Exception(('Code does not match'))
         self.is_active = True
@@ -112,3 +117,29 @@ class User(AbstractUser):
     
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    # Custom validator to check for at least one digit and Upper Letter
+    # @staticmethod
+    # def contains_digit_and_upperletter(value):
+    #     if not any(char.isdigit() for char in value):
+    #         raise ValidationError("This field must contain at least one digit.")
+    #     if not any(char.isupper() for char in value):
+    #         raise ValidationError("This field must contain at least one uppercase letter.")

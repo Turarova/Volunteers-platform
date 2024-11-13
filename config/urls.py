@@ -22,7 +22,7 @@ from django.conf.urls.static import static
 
 from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
-
+from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.routers import DefaultRouter
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
@@ -31,12 +31,14 @@ from rest_framework_simplejwt.views import (
 
 schema_view = get_schema_view(
     openapi.Info(
-        title="Volunteer's Platform",
+        title="Volunteers' Platform",
         default_version='v1',
         description='Platform to connect volunteers from Naryn with people in need',
     ),
-    public = True
+    public = True,
+    authentication_classes=(JWTAuthentication,),
 )
+
 
 router = DefaultRouter()
 

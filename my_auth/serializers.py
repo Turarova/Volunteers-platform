@@ -1,8 +1,11 @@
+from typing import Any, Dict
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
 from rest_framework.exceptions import ValidationError
+from django.contrib.auth import authenticate
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.tokens import RefreshToken, TokenError
+from rest_framework.exceptions import AuthenticationFailed
 
 User = get_user_model()
 
@@ -19,7 +22,7 @@ class RegisterSerializer(serializers.ModelSerializer):
         return value
 
     def create(self, validated_data):
-        return User.objects._create_user(**validated_data)
+        return User.objects.create_user(**validated_data)
     
 
 # to get list of all users (admin's right)
@@ -30,7 +33,28 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class LoginSerializer(TokenObtainPairSerializer):
-    pass
+    ...
+    # Use email for authentication instead of username
+    # def validate(self, attrs: Dict[str, Any]) -> Dict[str, str]:
+    #     email = attrs.get('email')
+    #     password = attrs.get('password')
+
+    #     if not email or not password:
+    #         raise AuthenticationFailed('Email and password are required')
+        
+    #             # Authenticate the user using email and password
+    #     user = authenticate(request=self.context.get('request'), email=email, password=password)
+
+    #     if not user:
+    #         raise AuthenticationFailed('No active account found with the given credentials')
+
+    #     if not user.is_active:
+    #         raise AuthenticationFailed('This account is inactive')
+
+    #     # Override attrs to match expected fields in TokenObtainPairSerializer
+    #     # attrs['username'] = user.email  # Simulate username field for token generation
+
+    #     return super().validate(attrs)
 
 
 class ActivationSerializer(serializers.Serializer):
@@ -55,3 +79,8 @@ class LogoutSerializer(serializers.Serializer):
             RefreshToken(self.token).blacklist()
         except TokenError:
             self.fail('bad_token')
+
+
+class DeleteUserSerializer(serializers.Serializer):
+    email = serializers.EmailField(write_only=True, 
+                                   required=True)
