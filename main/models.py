@@ -11,5 +11,5 @@ class Needy(models.Model):
     about_me = models.TextField(help_text='Өзүңүз жөнүндө кыскача маалымат бериңиз')
     address = models.CharField(max_length=200, blank=True, null=True)
     phone_number = models.CharField(max_length=13, null=True, blank=True)
-    help_description = models.Choices()
+    help_description = models.TextField()
     
