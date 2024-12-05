@@ -21,24 +21,14 @@ This platform, powered by Django REST Framework (DRF), ensures efficient and sca
   
 ## Steps
 1) __Clone the repository:__
-bash
-Copy code
 git clone https://github.com/Turarova/Volunteers-platform.git
 2) __Navigate to the project directory:__
-bash
-Copy code
 cd Volunteers-platform
 3) __Install dependencies:__
-bash
-Copy code
 pip install -r req.txt
 4) __Apply migrations:__
-bash
-Copy code
 python manage.py migrate
 5) __Run the server:__
-bash
-Copy code
 python manage.py runserver
 # Technologies Used
 * __Backend Framework:__ Django with Django REST Framework (DRF)
