@@ -12,4 +12,8 @@ class Needy(models.Model):
     address = models.CharField(max_length=200, blank=True, null=True)
     phone_number = models.CharField(max_length=13, null=True, blank=True)
     help_description = models.TextField()
+
+
+
+
     
