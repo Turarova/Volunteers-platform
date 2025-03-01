@@ -17,7 +17,7 @@ This platform, powered by Django REST Framework (DRF), ensures efficient and sca
 * Python 3.8+
 * Django 4.x
 * Django REST Framework
-* PostgreSQL or SQLite
+* PostgreSQL
   
 ## Steps
 1) __Clone the repository:__
