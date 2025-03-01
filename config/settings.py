@@ -30,6 +30,20 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",  # Если фронт работает на React/Vue локально
+    "http://127.0.0.1:3000",
+    # "https://your-frontend-domain.com",  # Добавь продакшн-домен фронтенда
+]
+
+CORS_ALLOW_CREDENTIALS = True  # Если нужны куки для авторизации
+
+CSRF_TRUSTED_ORIGINS = [
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
+    # "https://your-frontend-domain.com",
+]
+
 
 # Application definition
 
@@ -44,6 +58,7 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'rest_framework_simplejwt.token_blacklist',
 
+    'corsheaders',
     'drf_yasg',
 
     'volunteer',
@@ -53,6 +68,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
