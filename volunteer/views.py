@@ -5,8 +5,9 @@ from rest_framework import status, permissions
 from rest_framework_simplejwt.views import TokenObtainPairView
 from django.shortcuts import get_object_or_404
 # from drf_yasg.utils import swagger_auto_schema
-from rest_framework.exceptions import NotFound
-
+from django.contrib.auth.tokens import default_token_generator
+from django.core.mail import send_mail
+from rest_framework.views import APIView
 
 from rest_framework.response import Response
 from rest_framework import status
@@ -57,19 +58,6 @@ class CreateUserView(CreateAPIView):
         
 
 
-
-
-from .serializers import CompleteRegistrationSerializer
-
-# class CompleteRegistrationView(UpdateAPIView):
-#     """Менеджер или волонтер завершает регистрацию (добавляет ФИО и пароль)"""
-#     serializer_class = CompleteRegistrationSerializer  
-#     # permission_classes = [IsAuthenticated]  
-
-#     def get_object(self):
-#         """Получаем текущего пользователя"""
-#         return self.request.user  
-
 class CompleteRegistrationView(GenericAPIView):
     serializer_class = CompleteRegistrationSerializer
 
@@ -94,7 +82,6 @@ class ActivationView(GenericAPIView):
             user.activation_code = ''
             user.save()
             return Response({'msg':'User successfully activated'})
-
 
 
 class DeleteUserAPIView(GenericAPIView):
@@ -137,13 +124,6 @@ class LogoutAPIView(GenericAPIView):
         serializers.is_valid(raise_exception=True)
         serializers.save()
         return Response({"msg":"You successfully logged out"}, status=status.HTTP_204_NO_CONTENT)
-
-
-
-
-from django.contrib.auth.tokens import default_token_generator
-from django.core.mail import send_mail
-from rest_framework.views import APIView
 
 
 class PasswordResetRequestAPIView(APIView):

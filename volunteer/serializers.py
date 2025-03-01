@@ -47,7 +47,6 @@ class UserCreateSerializer(serializers.ModelSerializer):
         return data
 
     def create(self, validated_data):
-        # Найти компанию по имени
         company_name = validated_data.pop('company')
         company = Company.objects.get(name=company_name)
         return User.objects.create(company=company, **validated_data)
@@ -201,7 +200,7 @@ class PasswordResetConfirmSerializer(serializers.Serializer):
     new_password = serializers.CharField(min_length=6)
 
     def validate_token(self, token):
-        # Здесь мы ищем пользователя по токену
+        # ищем пользователя по токену
         user = self.get_user_from_token(token)
         if not user:
             raise serializers.ValidationError("Неверный или просроченный токен.")

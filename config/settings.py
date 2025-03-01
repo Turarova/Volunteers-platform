@@ -31,17 +31,17 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",  # Если фронт работает на React/Vue локально
+    "http://localhost:3000", 
     "http://127.0.0.1:3000",
-    # "https://your-frontend-domain.com",  # Добавь продакшн-домен фронтенда
+    # "https://frontend-domain.com",  # продакшн-домен фронтенда
 ]
 
-CORS_ALLOW_CREDENTIALS = True  # Если нужны куки для авторизации
+CORS_ALLOW_CREDENTIALS = True  # куки для авторизации
 
 CSRF_TRUSTED_ORIGINS = [
     "http://localhost:3000",
     "http://127.0.0.1:3000",
-    # "https://your-frontend-domain.com",
+    # "https://frontend-domain.com",
 ]
 
 

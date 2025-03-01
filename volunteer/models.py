@@ -59,7 +59,7 @@ class User(AbstractUser):
         help_text="Enter an email address in format: email@domain.com.",
         error_messages={
             'unique': "A user with this email address already exists.",
-        },)  # Уникальный email
+        },)  
     first_name = models.CharField(max_length=50, blank=True)
     last_name = models.CharField(max_length=50, blank=True)
     is_manager = models.BooleanField(default=False)
@@ -69,7 +69,7 @@ class User(AbstractUser):
     activation_code = models.CharField(max_length=36, blank=True)
     company = models.ForeignKey(Company, related_name='users', on_delete=models.CASCADE, null=True)
 
-    USERNAME_FIELD = 'email'  # Django теперь логинит по айди
+    USERNAME_FIELD = 'email'  
     REQUIRED_FIELDS = ['first_name', 'last_name']
 
     objects = UserManager()
@@ -82,7 +82,7 @@ class User(AbstractUser):
         """Generates a unique activation code for the user"""
         code = str(uuid.uuid4())
         self.activation_code = code
-        self.save(update_fields=['activation_code'])  # Сохраняем код в БД
+        self.save(update_fields=['activation_code'])  
         print("Activation code=> ", code)
     
     def activate_with_code(self, code):
