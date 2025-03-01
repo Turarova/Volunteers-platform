@@ -46,7 +46,7 @@ INSTALLED_APPS = [
 
     'drf_yasg',
 
-    'my_auth',
+    'volunteer',
     'main'
 ]
 
@@ -147,7 +147,7 @@ MEDIA_URL = '/media/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-AUTH_USER_MODEL = 'my_auth.User'
+AUTH_USER_MODEL = 'volunteer.User'
 
 REST_FRAMEWORK = {
     'DEFAULT_FILTER_BACKENDS': [
@@ -207,3 +207,8 @@ SWAGGER_SETTINGS = {
         }
     }
 }
+
+
+AUTHENTICATION_BACKENDS = [
+    "django.contrib.auth.backends.ModelBackend",
+]
